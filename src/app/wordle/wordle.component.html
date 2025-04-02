@@ -1,0 +1,22 @@
+<div class="wordle-container">
+  <h2>Wordle Game</h2>
+
+  <!-- Word Grid -->
+  <div class="word-grid">
+    <div *ngFor="let row of grid; let i = index" class="word-row">
+      <div *ngFor="let cell of row; let j = index" class="word-cell" [class.correct]="cell.status === 'correct'" [class.present]="cell.status === 'present'" [class.absent]="cell.status === 'absent'">
+        {{ cell.letter }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard -->
+  <div class="keyboard">
+    <button *ngFor="let key of keyboard" (click)="onKeyPress(key)" [disabled]="key.disabled">
+      {{ key.letter }}
+    </button>
+  </div>
+
+  <!-- Feedback -->
+  <p class="message">{{ message }}</p>
+</div>
