@@ -22,6 +22,9 @@
     <div class="special-buttons">
       <button (click)="onBackspace()">⌫</button>
       <button (click)="onEnter()">Enter</button>
+      <button (click)="prevWord()" [disabled]="currentWordIndex === 0">Previous</button>
+      <button (click)="nextWord()" [disabled]="!canGoNext">Next</button>
+
     </div>
   </div>
 
