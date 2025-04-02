@@ -61,3 +61,31 @@
   font-size: 1.2rem;
   font-weight: bold;
 }
+
+.special-buttons {
+  margin-top: 10px;
+}
+
+.special-buttons button {
+  width: 80px;
+  height: 40px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.correct {
+  background-color: green;
+  color: white;
+}
+
+.present {
+  background-color: orange;
+  color: white;
+}
+
+.absent {
+  background-color: gray;
+  color: white;
+}
