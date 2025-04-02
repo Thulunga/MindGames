@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class WordleComponent {
   private http = inject(HttpClient); // Inject HttpClient
 
-  correctWord = 'APPLE';
+  correctWord = 'WATCH';
   grid = Array(6)
     .fill(null)
     .map(() => Array(5).fill({ letter: '', status: '' }));
