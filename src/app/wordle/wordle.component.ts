@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -9,10 +9,14 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './wordle.component.html',
   styleUrls: ['./wordle.component.css'],
 })
-export class WordleComponent {
-  private http = inject(HttpClient); // Inject HttpClient
+export class WordleComponent implements OnInit {
+  private http = inject(HttpClient);
 
-  correctWord = 'WATCH';
+  wordList = ["WATCH", "GRAPE", "MANGO", "PEACH", "PLUMB"];
+  currentWordIndex = 0;
+  correctWord = this.wordList[this.currentWordIndex];
+  canGoNext = false; // Initially, "Next" button is disabled
+
   grid = Array(6)
     .fill(null)
     .map(() => Array(5).fill({ letter: '', status: '' }));
@@ -24,6 +28,57 @@ export class WordleComponent {
   currentRow = 0;
   currentCol = 0;
   apiUrl = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+  deviceId = '';
+
+  constructor() {
+    this.deviceId = this.getDeviceId(); // Generate device ID
+  }
+
+  ngOnInit() {
+    this.loadGameState(); // Load previous game state on refresh
+  }
+
+  getDeviceId(): string {
+    let storedId = localStorage.getItem('deviceId');
+    if (!storedId) {
+      storedId = 'dev-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('deviceId', storedId);
+    }
+    return storedId;
+  }
+
+  saveGameState() {
+    const gameState = {
+      grid: this.grid,
+      keyboard: this.keyboard,
+      message: this.message,
+      currentRow: this.currentRow,
+      currentCol: this.currentCol,
+      canGoNext: this.canGoNext,
+    };
+    localStorage.setItem(
+      `wordle-game-${this.deviceId}-word-${this.currentWordIndex}`,
+      JSON.stringify(gameState)
+    );
+  }
+
+  loadGameState() {
+    const savedState = localStorage.getItem(
+      `wordle-game-${this.deviceId}-word-${this.currentWordIndex}`
+    );
+
+    if (savedState) {
+      const { grid, keyboard, message, currentRow, currentCol, canGoNext } = JSON.parse(savedState);
+      this.grid = grid;
+      this.keyboard = keyboard;
+      this.message = message;
+      this.currentRow = currentRow;
+      this.currentCol = currentCol;
+      this.canGoNext = canGoNext; // Restore next button state
+    } else {
+      this.resetBoard();
+    }
+  }
 
   onKeyPress(key: { letter: string; status: string }) {
     if (this.currentCol < 5) {
@@ -32,6 +87,7 @@ export class WordleComponent {
         status: '',
       };
       this.currentCol++;
+      this.saveGameState(); // Save game state
     }
   }
 
@@ -39,6 +95,7 @@ export class WordleComponent {
     if (this.currentCol > 0) {
       this.currentCol--;
       this.grid[this.currentRow][this.currentCol] = { letter: '', status: '' };
+      this.saveGameState(); // Save game state
     }
   }
 
@@ -61,6 +118,7 @@ export class WordleComponent {
       },
       error: () => {
         this.message = `❌ "${guessedWord}" is not a valid word!`;
+        this.saveGameState(); // Save game state
       },
     });
   }
@@ -83,7 +141,8 @@ export class WordleComponent {
     });
 
     if (guessedWord === this.correctWord) {
-      this.message = '🎉 You guessed it!';
+      this.message = '🎉 Correct! You can go to the next word.';
+      this.canGoNext = true; // Enable "Next" button
     } else if (this.currentRow === 5) {
       this.message = `❌ Game Over! The word was "${this.correctWord}".`;
     } else {
@@ -91,6 +150,34 @@ export class WordleComponent {
       this.currentCol = 0;
       this.message = 'Try again!';
     }
+
+    this.saveGameState();
+  }
+
+  nextWord() {
+    if (this.currentWordIndex < this.wordList.length - 1) {
+      this.currentWordIndex++;
+      this.correctWord = this.wordList[this.currentWordIndex];
+      this.loadGameState(); // Load stored progress for this word
+    }
+  }
+
+  prevWord() {
+    if (this.currentWordIndex > 0) {
+      this.currentWordIndex--;
+      this.correctWord = this.wordList[this.currentWordIndex];
+      this.loadGameState(); // Load stored progress for this word
+    }
+  }
+
+  resetBoard() {
+    this.grid = Array(6).fill(null).map(() => Array(5).fill({ letter: '', status: '' }));
+    this.keyboard = 'QWERTYUIOPASDFGHJKLZXCVBNM'.split('').map(letter => ({ letter, status: '' }));
+    this.currentRow = 0;
+    this.currentCol = 0;
+    this.message = `Word ${this.currentWordIndex + 1}`;
+    this.canGoNext = false; // Disable "Next" button again
+    this.saveGameState();
   }
 
   updateKeyboard(letter: string, status: string) {
