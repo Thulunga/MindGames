@@ -4,7 +4,8 @@
   <!-- Word Grid -->
   <div class="word-grid">
     <div *ngFor="let row of grid; let i = index" class="word-row">
-      <div *ngFor="let cell of row; let j = index" class="word-cell" [class.correct]="cell.status === 'correct'" [class.present]="cell.status === 'present'" [class.absent]="cell.status === 'absent'">
+      <div *ngFor="let cell of row; let j = index" class="word-cell" [class.correct]="cell.status === 'correct'"
+        [class.present]="cell.status === 'present'" [class.absent]="cell.status === 'absent'">
         {{ cell.letter }}
       </div>
     </div>
@@ -12,10 +13,18 @@
 
   <!-- Keyboard -->
   <div class="keyboard">
-    <button *ngFor="let key of keyboard" (click)="onKeyPress(key)" [disabled]="key.disabled">
+    <button *ngFor="let key of keyboard" (click)="onKeyPress(key)" [class.correct]="key.status === 'correct'"
+      [class.present]="key.status === 'present'" [class.absent]="key.status === 'absent'">
       {{ key.letter }}
     </button>
+
+    <!-- Backspace & Enter Buttons -->
+    <div class="special-buttons">
+      <button (click)="onBackspace()">⌫</button>
+      <button (click)="onEnter()">Enter</button>
+    </div>
   </div>
+
 
   <!-- Feedback -->
   <p class="message">{{ message }}</p>
