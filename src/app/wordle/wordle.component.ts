@@ -12,7 +12,12 @@ import { HttpClient } from '@angular/common/http';
 export class WordleComponent implements OnInit {
   private http = inject(HttpClient);
 
-  wordList = ["WATCH", "GRAPE", "MANGO", "PEACH", "PLUMB"];
+  wordList = [
+    "LIGHT", "SMILE", "PLANT", "TIGER", "WATER",
+    "BRAVE", "CANDY", "GRASS", "MUSIC", "HAPPY",
+    "COAST", "BREAD", "STORM", "FRESH", "TRAIN",
+    "HOUSE", "CLOUD", "DREAM", "SWEET", "ROAST"
+  ];
   currentWordIndex = 0;
   correctWord = this.wordList[this.currentWordIndex];
   canGoNext = false; // Initially, "Next" button is disabled
