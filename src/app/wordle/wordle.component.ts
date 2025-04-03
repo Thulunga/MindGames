@@ -241,7 +241,7 @@ export class WordleComponent implements OnInit {
       .map((letter) => ({ letter, status: '' }));
     this.currentRow = 0;
     this.currentCol = 0;
-    this.message = `Word ${this.currentWordIndex + 1}`;
+    this.message = 'Start guessing!';
     this.canGoNext = false; // Disable "Next" button again
     this.saveGameState();
   }
