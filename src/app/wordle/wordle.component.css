@@ -1,3 +1,10 @@
+html, body {
+  touch-action: manipulation; /* Prevent zoom on double tap */
+  user-select: none; /* Optional: Prevents text selection */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 .wordle-container {
   /* text-align: center; */
   font-family: Arial, sans-serif;

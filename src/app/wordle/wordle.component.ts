@@ -49,6 +49,9 @@ export class WordleComponent implements OnInit {
   }
 
   ngOnInit() {
+    document.addEventListener('dblclick', function (event) {
+      event.preventDefault(); // Prevents zooming
+    });
     const storedVersion = localStorage.getItem('wordle-wordlist-version');
 
     if (storedVersion !== this.WORD_LIST_VERSION) {
