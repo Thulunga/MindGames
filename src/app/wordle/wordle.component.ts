@@ -13,11 +13,20 @@ export class WordleComponent implements OnInit {
   private http = inject(HttpClient);
 
   wordList = [
-    "LIGHT", "SMILE", "PLANT", "TIGER", "WATER",
-    "BRAVE", "CANDY", "GRASS", "MUSIC", "HAPPY",
-    "COAST", "BREAD", "STORM", "FRESH", "TRAIN",
-    "HOUSE", "CLOUD", "DREAM", "SWEET", "ROAST"
+    "BLEND", "CRISP", "FLARE", "GLOBE", "SWIRL",
+    "CHANT", "VAULT", "PLUSH", "BROOD", "GRASP",
+    "FROST", "CLASH", "SWEEP", "QUIRK", "DROOP",
+    "BLAZE", "PRISM", "STOUT", "TWINE", "WOVEN",
+    "GLINT", "CHARM", "FIBER", "TWEAK", "SCORN",
+    "CRAVE", "SPECK", "PLUCK", "BRISK", "GLARE",
+    "SCOUT", "VAULT", "FROWN", "TWIRL", "SHRUB",
+    "CHIRP", "SPLIT", "THROB", "SHARD", "STARK",
+    "CRISP", "FLOUR", "PLATE", "GLAND", "DROOL",
+    "FLICK", "SWARM", "QUAKE", "BROOM", "SHOVE"
   ];
+
+  WORD_LIST_VERSION = 'v1.0.0.1'; // Change this when updating words
+
   currentWordIndex = 0;
   correctWord = this.wordList[this.currentWordIndex];
   canGoNext = false; // Initially, "Next" button is disabled
@@ -40,7 +49,16 @@ export class WordleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadGameState(); // Load previous game state on refresh
+    const storedVersion = localStorage.getItem('wordle-wordlist-version');
+
+    if (storedVersion !== this.WORD_LIST_VERSION) {
+      // If version changes, reset progress
+      localStorage.setItem('wordle-wordlist-version', this.WORD_LIST_VERSION);
+      localStorage.removeItem(`wordle-game-${this.deviceId}`);
+      this.currentWordIndex = 0; // Start fresh
+    } else {
+      this.loadGameState();
+    }
   }
 
   getDeviceId(): string {
@@ -73,7 +91,8 @@ export class WordleComponent implements OnInit {
     );
 
     if (savedState) {
-      const { grid, keyboard, message, currentRow, currentCol, canGoNext } = JSON.parse(savedState);
+      const { grid, keyboard, message, currentRow, currentCol, canGoNext } =
+        JSON.parse(savedState);
       this.grid = grid;
       this.keyboard = keyboard;
       this.message = message;
@@ -176,8 +195,12 @@ export class WordleComponent implements OnInit {
   }
 
   resetBoard() {
-    this.grid = Array(6).fill(null).map(() => Array(5).fill({ letter: '', status: '' }));
-    this.keyboard = 'QWERTYUIOPASDFGHJKLZXCVBNM'.split('').map(letter => ({ letter, status: '' }));
+    this.grid = Array(6)
+      .fill(null)
+      .map(() => Array(5).fill({ letter: '', status: '' }));
+    this.keyboard = 'QWERTYUIOPASDFGHJKLZXCVBNM'
+      .split('')
+      .map((letter) => ({ letter, status: '' }));
     this.currentRow = 0;
     this.currentCol = 0;
     this.message = `Word ${this.currentWordIndex + 1}`;

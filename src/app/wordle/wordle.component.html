@@ -1,6 +1,5 @@
 <div class="wordle-container">
-  <h2>Wordle Game</h2>
-
+  <p class="text">This game is for <b>Shashank Chattar</b></p>
   <!-- Word Grid -->
   <div class="word-grid">
     <div *ngFor="let row of grid; let i = index" class="word-row">
@@ -11,24 +10,49 @@
     </div>
   </div>
 
+  <!-- Feedback -->
+  <div class="feedback">
+    <p class="message">{{ message }}</p>
+  </div>
+
   <!-- Keyboard -->
   <div class="keyboard">
-    <button *ngFor="let key of keyboard" (click)="onKeyPress(key)" [class.correct]="key.status === 'correct'"
-      [class.present]="key.status === 'present'" [class.absent]="key.status === 'absent'">
-      {{ key.letter }}
-    </button>
+    <!-- Row 1 -->
+    <div class="row">
+      <button *ngFor="let key of keyboard.slice(0, 10)" (click)="onKeyPress(key)"
+        [class.correct]="key.status === 'correct'" [class.present]="key.status === 'present'"
+        [class.absent]="key.status === 'absent'">
+        {{ key.letter }}
+      </button>
+    </div>
 
-    <!-- Backspace & Enter Buttons -->
+    <!-- Row 2 -->
+    <div class="row">
+      <button *ngFor="let key of keyboard.slice(10, 19)" (click)="onKeyPress(key)"
+        [class.correct]="key.status === 'correct'" [class.present]="key.status === 'present'"
+        [class.absent]="key.status === 'absent'">
+        {{ key.letter }}
+      </button>
+    </div>
+
+    <!-- Row 3 (Includes Backspace) -->
+    <div class="row">
+      <button *ngFor="let key of keyboard.slice(19, 26)" (click)="onKeyPress(key)"
+        [class.correct]="key.status === 'correct'" [class.present]="key.status === 'present'"
+        [class.absent]="key.status === 'absent'">
+        {{ key.letter }}
+      </button>
+      <button style="background-color: red; color: white;" (click)="onBackspace()">⌫</button>
+    </div>
+
+    <!-- Special Buttons Row -->
     <div class="special-buttons">
-      <button (click)="onBackspace()">⌫</button>
-      <button (click)="onEnter()">Enter</button>
+      <button style="background-color: rgb(93, 151, 93); color: white;" (click)="onEnter()">Enter</button>
       <button (click)="prevWord()" [disabled]="currentWordIndex === 0">Previous</button>
       <button (click)="nextWord()" [disabled]="!canGoNext">Next</button>
-
     </div>
   </div>
 
+  <p class="footer text">Developed by <b>Thulunga Basumatary</b> with ❤️</p>
 
-  <!-- Feedback -->
-  <p class="message">{{ message }}</p>
 </div>
