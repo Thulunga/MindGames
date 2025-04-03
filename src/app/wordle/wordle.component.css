@@ -1,14 +1,30 @@
 .wordle-container {
-  text-align: center;
+  /* text-align: center; */
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 98vh;
+
+  .text{
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer{
+    font-size: 12px;
+  }
+}
+
+.feedback{
+  flex-grow: 1;
 }
 
 .word-grid {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
-  gap: 5px;
-  margin: 20px auto;
-  max-width: 250px;
+  gap: 4px;
+  margin: 10px auto;
 }
 
 .word-row {
@@ -44,35 +60,55 @@
   background-color: lightgray;
 }
 
-.keyboard {
-  margin-top: 20px;
-}
-
-.keyboard button {
-  width: 30px;
-  height: 40px;
-  margin: 5px;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
 .message {
   margin-top: 15px;
   font-size: 1.2rem;
   font-weight: bold;
+  text-align: center;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-bottom: 15px;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button.correct {
+  background-color: green;
+  color: white;
+}
+
+button.present {
+  background-color: orange;
+  color: white;
+}
+
+button.absent {
+  background-color: gray;
+  color: white;
 }
 
 .special-buttons {
+  display: flex;
+  gap: 10px;
   margin-top: 10px;
-}
-
-.special-buttons button {
-  width: 80px;
-  height: 40px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 5px;
-  cursor: pointer;
 }
 
 .correct {
