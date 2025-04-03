@@ -85,10 +85,10 @@ export class WordleComponent implements OnInit {
   }
 
   ngOnInit() {
-    const savedWordIndex = localStorage.getItem('lastPlayedWordIndex');
-    if (savedWordIndex !== null) {
-      this.currentWordIndex = parseInt(savedWordIndex, 10); // Convert string to number
-    }
+    // const savedWordIndex = localStorage.getItem('lastPlayedWordIndex');
+    // if (savedWordIndex !== null) {
+    //   this.currentWordIndex = parseInt(savedWordIndex, 10); // Convert string to number
+    // }
 
     document.addEventListener('dblclick', function (event) {
       event.preventDefault(); // Prevents zooming
@@ -128,7 +128,7 @@ export class WordleComponent implements OnInit {
       JSON.stringify(gameState)
     );
 
-    localStorage.setItem('lastPlayedWordIndex', this.currentWordIndex.toString()); // ✅ Store latest word index
+    // localStorage.setItem('lastPlayedWordIndex', this.currentWordIndex.toString()); // ✅ Store latest word index
   }
 
   loadGameState() {
