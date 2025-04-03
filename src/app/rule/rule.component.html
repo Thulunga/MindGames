@@ -1,0 +1,45 @@
+<div class="rules-container">
+  <h2>📜 How to Play Wordle</h2>
+  <p>Guess the hidden **5-letter word** within **6 attempts**!</p>
+
+  <h3>🎯 Game Rules:</h3>
+  <ul>
+    <li>Each guess must be a valid **5-letter** word.</li>
+    <li>Press **Enter** to submit your guess.</li>
+    <li>After submitting, the tiles will change color to give you hints:</li>
+  </ul>
+
+  <div class="example">
+    <div class="tile correct">W</div> <span>**Green** - Correct letter & correct position.</span>
+  </div>
+
+  <div class="example">
+    <div class="tile present">A</div> <span>**Yellow** - Correct letter but wrong position.</span>
+  </div>
+
+  <div class="example">
+    <div class="tile absent">S</div> <span>**Gray** - Letter is not in the word at all.</span>
+  </div>
+
+  <h3>📝 Additional Rules:</h3>
+  <ul>
+    <li>You cannot enter **random** or **made-up** words.</li>
+    <li>If you solve the word, you can move to the next one.</li>
+    <li>If you fail after 6 attempts, the correct word is revealed.</li>
+    <li>Click on the **Previous** button to revisit past words.</li>
+  </ul>
+
+  <h3>🔹 Example Play:</h3>
+  <p>Suppose the word is **PLUMB** and you guess **PLANE**, the colors will be:</p>
+  <div class="example">
+    <div class="tile correct">P</div>
+    <div class="tile correct">L</div>
+    <div class="tile present">A</div>
+    <div class="tile absent">N</div>
+    <div class="tile absent">E</div>
+  </div>
+
+  <p>Now, you know **P & L** are correct, **A** exists in another spot, and **N & E** are wrong.</p>
+
+  <button routerLink="/wordle" class="back-button">Back to Game</button>
+</div>

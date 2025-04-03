@@ -48,7 +48,8 @@
 
     <!-- Special Buttons Row -->
     <div class="special-buttons">
-      <button style="background-color: rgb(93, 151, 93); color: white;" (click)="onEnter()">Enter</button>
+      <button style="background-color: rgb(93, 151, 93); color: white;" (click)="onEnter()">Guess!</button>
+      <button routerLink="/rules">📖 Rules</button>
       <button (click)="prevWord()" [disabled]="currentWordIndex === 0">Previous</button>
       <button (click)="nextWord()" [disabled]="!canGoNext">Next</button>
     </div>
