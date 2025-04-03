@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-wordle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './wordle.component.html',
   styleUrls: ['./wordle.component.css'],
 })
@@ -84,6 +85,11 @@ export class WordleComponent implements OnInit {
   }
 
   ngOnInit() {
+    const savedWordIndex = localStorage.getItem('lastPlayedWordIndex');
+    if (savedWordIndex !== null) {
+      this.currentWordIndex = parseInt(savedWordIndex, 10); // Convert string to number
+    }
+
     document.addEventListener('dblclick', function (event) {
       event.preventDefault(); // Prevents zooming
     });
@@ -121,6 +127,8 @@ export class WordleComponent implements OnInit {
       `wordle-game-${this.deviceId}-word-${this.currentWordIndex}`,
       JSON.stringify(gameState)
     );
+
+    localStorage.setItem('lastPlayedWordIndex', this.currentWordIndex.toString()); // ✅ Store latest word index
   }
 
   loadGameState() {
@@ -207,6 +215,7 @@ export class WordleComponent implements OnInit {
       this.canGoNext = true; // Enable "Next" button
     } else if (this.currentRow === 5) {
       this.message = `❌ Game Over! The word was "${this.correctWord}".`;
+      this.canGoNext = true; // Enable "Next" button
     } else {
       this.currentRow++;
       this.currentCol = 0;
